@@ -19,13 +19,11 @@ IPAddress subnet(255, 255, 255, 0);  // Standard subnet mask
 
 WebServer server(80);
 
-TaskHandle_t task_loop2_for_k66f;
-
 void on_connect_handler();
 void sensor_handler();
 void actuator_handler();
 void not_found_handler();
-void loop2_for_k66f(void* pvParameters);
+
 String SendHTML(String st);
 
 void setup() {
@@ -62,30 +60,10 @@ void setup() {
 
   server.begin();
   Serial.println("ESP - HTTP server started on port 80");
-
-  // Start a thread to read and write data to K66F
-  xTaskCreatePinnedToCore(
-    loop2_for_k66f,       /* Function to implement the task */
-    "Task1",              /* Name of the task */
-    10000,                /* Stack size in words */
-    NULL,                 /* Task input parameter */
-    0,                    /* Priority of the task */
-    &task_loop2_for_k66f, /* Task handle. */
-    0);                   /* Core where the task should run */
-  delay(500);
 }
 
 void loop() {
   server.handleClient();
-}
-
-// this loop is to fake data that can potentially read and write data to K66F
-void loop2_for_k66f(void* pvParameters) {
-  for (;;) {
-    sensor = random(0, 3);
-    sensor_val = random(45, 60);
-    delay(500);
-  }
 }
 
 void on_connect_handler() {
@@ -142,8 +120,8 @@ void not_found_handler() {
 String SendHTML(String st) {
   String ptr = "<!DOCTYPE html> <html>\n";
   ptr += "<head><meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0, user-scalable=no\">\n";
-  ptr += "<title>Rice</title>\n";
-  ptr += "<h1>Chicken Wings with Fried Rice</h1>\n";
+  ptr += "<title>Habibi</title>\n";
+  ptr += "<h1>h=Habibi The West</h1>\n";
   ptr += "<h3>Using WIFI Mode</h3>\n";
   ptr += "<p>Device IP Address: <strong>" + st + "</strong></p>";
   ptr += "</body>\n";
